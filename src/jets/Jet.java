@@ -6,13 +6,15 @@ public class Jet {
 	private float range;
 	private int capacity;
 	private float price;
+	private Pilot pilot;
 
-	public Jet(String mod, float sp, float rg, int cap, float pr) {
+	public Jet(String mod, float sp, float rg, int cap, float pr, Pilot pil) {
 		setModel(mod);
 		setSpeed(sp);
 		setRange(rg);
 		setCapacity(cap);
 		setPrice(pr);
+		setPilot(pil);
 	}
 
 	public String getModel() {
@@ -58,9 +60,19 @@ public class Jet {
 	//to String
 	@Override
 	public String toString() {
+		//print jet with pilot
 		String info = String.format("Jet [model=" + model + ", speed= %.2f range= %.2f, "
-				+ "capacity=" + capacity + " price=%.2f]", speed, range, price);
+				+ "capacity=" + capacity + " price=%.2f] pilot=" + pilot.toString(), speed, range, price);
+		
 		return info;
+	}
+
+	public Pilot getPilot() {
+		return pilot;
+	}
+
+	public void setPilot(Pilot pilot) {
+		this.pilot = pilot;
 	}
 
 }

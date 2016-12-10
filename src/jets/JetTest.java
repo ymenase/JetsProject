@@ -2,7 +2,6 @@ package jets;
 
 import java.util.Scanner;
 
-import jets2.Jet;
 
 public class JetTest {
 	static Hangar h = new Hangar();
@@ -13,28 +12,27 @@ public class JetTest {
 		Jet Bears = new Jet("Bears", 1000.0F, 1800F, 15, 80F);
 		Jet Superman = new Jet("Superman", 550.0F, 1700F, 21, 90F);
 		Jet Spiderman = new Jet("Spiderman", 600.0F, 1500F, 30, 100F);
-		h.addJet(Wolverine);
-		h.addJet(Wolverine);
-		h.addJet(Wolverine);
-		h.addJet(Wolverine);
-//		Jet[] jets = new Jet[5];
-//		jets[0] = Wolverine;
-//		jets[1] = Batman;
-//		jets[2] = Bears;
-//		jets[3] = Superman;
-//		jets[4] = Spiderman;
-		
-		h.setJets(jets);
+		Jet[] jets = new Jet[5];
+		jets[0] = Wolverine;
+		jets[1] = Batman;
+		jets[2] = Bears;
+		jets[3] = Superman;
+		jets[4] = Spiderman;
+	
 		// make array of jets
 		int selection = 0;
 		
 		Scanner keyboard = new Scanner(System.in);
-	
-		// create menu
+	      printMenu(keyboard, selection, jets);
+          selectionAction(selection, jets, keyboard);
+          getFastestJet(jets);
+          getLongestRange(jets);
+          addAJet(jets, keyboard);
+          quitProgram(keyboard);
 
 	}
 
-	public  void printMenu(Scanner keyboard, int selection, Jet[] jets) {
+	public static void printMenu(Scanner keyboard, int selection, Jet[] jets) {
         System.out.println("\u2708 Please Choose an Option");
         System.out.println("_______\u2708______\u2708______\u2708______\u2708_____");
         System.out.println("|_______Yvette's Jet Rental_______|");
@@ -50,7 +48,7 @@ public class JetTest {
         selectionAction(selection, jets, keyboard);
 	}
 
-	public void selectionAction(int selection, Jet[] jets, Scanner keyboard){
+	public static void selectionAction(int selection, Jet[] jets, Scanner keyboard){
 		 do {
              if (selection == 1) {
                  printJet(jets);
@@ -66,7 +64,7 @@ public class JetTest {
              }
 
              if (selection == 4) {
-                 h.addJet(jets, keyboard);
+                 addAJet(jets, keyboard);
              }
              
              if (selection == 5) {
@@ -76,22 +74,41 @@ public class JetTest {
          } while (selection != 5);
 		
 	}
-	public  void printJet(Jet[] jets1) {
-		for (Jet jet : jets1) {
+	public static void printJet(Jet[] jets) {
+		for (Jet jet : jets) {
 			System.out.println(jet + "\n" + "\u2708");
 		}
 	}
 	
 
-	public  void getFastestJet(){
-		//formula for calculating the fastest jet
+	public static void getFastestJet(Jet[] jets){
+		Jet fastest = jets[0];
+        for (int i = 0; i < jets.length; i++) {
+            if (fastest.getSpeed() < jets[i].getSpeed()) {
+                fastest = jets[i];
+            }
+        }
+        System.out.printf("The fastest jet is " + fastest.getModel() + " with a speed of " + fastest.getSpeed()
+        + " mach, \n a range of %5.2f miles, a seating capacity of " + fastest.getCapacity() 
+        + ", \n and a price of $%5.2f million. \n", fastest.getRange(), fastest.getPrice());
+        System.out.println("\u2708");
 	}
 	
-	public void getLongestRange(){
-		
-	}
-	
+	public static void getLongestRange(Jet[] jets){
+		 Jet longest = jets[0];
+         for (int i = 0; i < jets.length; i++) {
+             if (longest.getRange() < jets[i].getRange()) {
+                 longest = jets[i];
+             }
 
+         }
+         System.out.printf("The jet with the longest range is " + longest.getModel() + " with a range of " 
+         + longest.getRange() + " \n miles, a speed of  %5.2f mach, a seating capacity of " + longest.getCapacity() + " people, \n at the price of $" +
+         "%5.2f  million. \n", longest.getPrice(), longest.getSpeed());
+         System.out.println("\u2708");
+	}
+	
+	
 
 	public JetTest() {
 		// TODO Auto-generated constructor stub
@@ -105,8 +122,35 @@ public class JetTest {
 		this.jets = jets;
 	}
 	
-	public void quitProgram(Scanner keyboard){
+	public static void quitProgram(Scanner keyboard){
 		System.exit(0);
+	}
+	
+
+	public static void addAJet(Jet[] jets, Scanner keyboard) {
+		System.out.println("\u2708 Enter the model of the jet: ");
+		String model = keyboard.next();
+
+		System.out.println("\u2708 Enter the speed of the jet (in mph): ");
+		float speed = keyboard.nextFloat();
+
+		System.out.println("\u2708 Enter the range the jet can fly (in miles): ");
+		float range = keyboard.nextFloat();
+
+		System.out.println("\u2708 Enter the fuel capacity of the jet: ");
+		int capacity = keyboard.nextInt();
+
+		System.out.println("\u2708 Enter your desired price of the jet, in millions: ");
+		float price = keyboard.nextFloat();
+
+		System.out.println("\u2708 Here is the updated jet listing");
+		Jet newJet = new Jet(model, speed, range, capacity, price);
+		Jet[] addjets = new Jet[jets.length + 1];
+		for (int i = 0; i < jets.length; i++) {
+			addjets[i] = jets[i];
+		}
+		h.addJetToHangar(newJet);
+		System.out.println(newJet);
 	}
 
 }

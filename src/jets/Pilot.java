@@ -6,7 +6,9 @@ public class Pilot {
 	private int yearsExp;
 
 	public Pilot(String n, double r, int yearsExp) {
-		// TODO Auto-generated constructor stub
+		this.name = n;
+		this.rate = r;
+		this.yearsExp = yearsExp;
 	}
 
 	@Override

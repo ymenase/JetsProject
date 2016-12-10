@@ -36,12 +36,10 @@ public class JetTest {
 
 		Scanner keyboard = new Scanner(System.in);
 		printMenu(keyboard, selection, jets);
-		selection = keyboard.nextInt();
 		selectionAction(selection, jets, keyboard, pilots);
-		selectionAction(selection, jets, keyboard, pilots);
-		getFastestJet(jets);
-		getLongestRange(jets);
-		addAJet(jets, keyboard, pilots);
+//		getFastestJet(jets);
+//		getLongestRange(jets);
+//		addAJet(jets, keyboard, pilots);
 		quitProgram(keyboard);
 
 	}
@@ -56,15 +54,17 @@ public class JetTest {
 		System.out.println("|[2]..............View Fastest Jet|");
 		System.out.println("|[3]...View Jet with Longest Range|");
 		System.out.println("|[4]...........Create a Custom Jet|");
-		System.out.println("|[5]..................Exit Program|");
+		System.out.println("|[5]..................Hire a Pilot|");
+		System.out.println("|[6]..................Exit Program|");
 		System.out.println("|_______\u2708________\u2708_______\u2708_______|");
 	}
 
 	public static void selectionAction(int selection, Jet[] jets, Scanner keyboard, Pilot[] pilots) {
+		
 		do {
+			selection = keyboard.nextInt();
 			if (selection == 1) {
-				printJet(jets);
-				break;
+				printJets(jets);
 			}
 
 			if (selection == 2) {
@@ -76,20 +76,28 @@ public class JetTest {
 			}
 
 			if (selection == 4) {
-				addAJet(jets, keyboard, pilots);
+				jets = addAJet(jets, keyboard, pilots);
 			}
 
-			if (selection == 7) {
+			if (selection == 5) {
+				hirePilot(jets, keyboard, pilots);
+			}
+			if (selection == 6) {
 				quitProgram(keyboard);
 			}
 			printMenu(keyboard, selection, jets);
-		} while (selection != 5);
+		} while (selection != 6);
 
 	}
 
-	public static void printJet(Jet[] jets) {
+	public static void printJets(Jet[] jets) {
 		for (Jet jet : jets) {
 			System.out.println(jet + "\n" + "\u2708");
+		}
+	}
+	public static void printPilots(Pilot[] pilots) {
+		for (Pilot pilot : pilots) {
+			System.out.println(pilot);
 		}
 	}
 
@@ -138,7 +146,7 @@ public class JetTest {
 		System.exit(0);
 	}
 
-	public static void addAJet(Jet[] jets, Scanner keyboard, Pilot[] pilots) {
+	public static Jet[] addAJet(Jet[] jets, Scanner keyboard, Pilot[] pilots) {
 		System.out.println("\u2708 Enter the model of the jet: ");
 		String model = keyboard.next();
 
@@ -154,17 +162,19 @@ public class JetTest {
 		System.out.println("\u2708 Enter your desired price of the jet, in millions: ");
 		float price = keyboard.nextFloat();
 
-		// System.out.println("\u2708 Enter your desired pilot for the jet: ");
-		// Pilot pilot = keyboard.next();
 
-		System.out.println("\u2708 Here is the updated jet listing");
+		System.out.println("\u2708 Here are the details of the new jet");
 		Jet newJet = new Jet(model, speed, range, capacity, price, getRandomPilot(pilots));
 		Jet[] addjets = new Jet[jets.length + 1];
 		for (int i = 0; i < jets.length; i++) {
 			addjets[i] = jets[i];
 		}
+		addjets[jets.length] = newJet;
+		jets = addjets;
 		h.addJetToHangar(newJet);
 		System.out.println(newJet);
+		
+		return jets; // return updated jets array
 	}
 
 	public static void randomizePilot(Pilot[] pilots, Jet[] jets) {
@@ -181,6 +191,44 @@ public class JetTest {
 		Pilot newPilot = pilots[index]; // pull the index of pilot to get new
 										// pilot
 		return newPilot;
+	}
+
+	public static void hirePilot(Jet[] jets, Scanner keyboard, Pilot[] pilots) {
+		Jet jet = null;
+		// ask user which jet they want to hire a pilot for
+		do {
+			System.out.println("Which jet would you like to hire a pilot for?");
+			printJets(jets);
+			int pref = keyboard.nextInt();
+			for (int i = 0; i < jets.length; i++) {
+				if ((pref - 1) == i) {
+					jet = jets[i];
+					break;
+				}
+			}
+			if (jet == null)
+				System.out.println("You have entered an invalid selection, please re-enter a number: ");
+		} while (jet == null);
+
+		// selecting a pilot
+		Pilot pilot = null;
+		do {
+			System.out.println("Which pilot would you like to hire?");
+			printPilots(pilots);
+			int pilotPref = keyboard.nextInt();
+			for (int i = 0; i < pilots.length; i++) { // iterate through array
+														// to
+				if ((pilotPref - 1) == i) {
+					pilot = pilots[i];
+					break;
+				}
+			}
+			if (pilot == null)
+				System.out.println("You have entered an invalid selection, please re-enter a pilot number: ");
+		} while (pilot == null);
+
+		jet.setPilot(pilot);
+		printJets(jets);
 	}
 
 }

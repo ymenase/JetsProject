@@ -156,7 +156,7 @@ public class JetTest {
 		System.out.println("\u2708 Enter the range the jet can fly (in miles): ");
 		float range = keyboard.nextFloat();
 
-		System.out.println("\u2708 Enter the fuel capacity of the jet: ");
+		System.out.println("\u2708 Enter the seating capacity of the jet: ");
 		int capacity = keyboard.nextInt();
 
 		System.out.println("\u2708 Enter your desired price of the jet, in millions: ");

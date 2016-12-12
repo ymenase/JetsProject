@@ -1,6 +1,7 @@
 package jets;
 
 public class Jet {
+	private int id;
 	private String model;
 	private float speed;
 	private float range;
@@ -8,7 +9,8 @@ public class Jet {
 	private float price;
 	private Pilot pilot;
 
-	public Jet(String mod, float sp, float rg, int cap, float pr, Pilot pil) {
+	public Jet(int id, String mod, float sp, float rg, int cap, float pr, Pilot pil) {
+		setId(id);
 		setModel(mod);
 		setSpeed(sp);
 		setRange(rg);
@@ -61,7 +63,7 @@ public class Jet {
 	@Override
 	public String toString() {
 		//print jet with pilot
-		String info = String.format("Jet [model=" + model + ", speed= %.2f range= %.2f, "
+		String info = String.format("Jet [ID = " + id + "[model=" + model + ", speed= %.2f range= %.2f, "
 				+ "capacity=" + capacity + " price=%.2f] pilot=" + pilot.toString(), speed, range, price);
 		
 		return info;
@@ -73,6 +75,14 @@ public class Jet {
 
 	public void setPilot(Pilot pilot) {
 		this.pilot = pilot;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

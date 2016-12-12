@@ -8,11 +8,11 @@ public class JetTest {
 
 	public static void main(String[] args) {
 		// make array of jets
-		Jet Wolverine = new Jet("Wolverine", 500F, 1550F, 10, 70F, null);
-		Jet Batman = new Jet("Batman", 900F, 2000F, 20, 60F, null);
-		Jet Bears = new Jet("Bears", 1000.0F, 1800F, 15, 80F, null);
-		Jet Superman = new Jet("Superman", 550.0F, 1700F, 21, 90F, null);
-		Jet Spiderman = new Jet("Spiderman", 600.0F, 1500F, 30, 100F, null);
+		Jet Wolverine = new Jet(1, "Wolverine", 500F, 1550F, 10, 70F, null);
+		Jet Batman = new Jet(2, "Batman", 900F, 2000F, 20, 60F, null);
+		Jet Bears = new Jet(3, "Bears", 1000.0F, 1800F, 15, 80F, null);
+		Jet Superman = new Jet(4, "Superman", 550.0F, 1700F, 21, 90F, null);
+		Jet Spiderman = new Jet(5, "Spiderman", 600.0F, 1500F, 30, 100F, null);
 		Jet[] jets = new Jet[5];
 		jets[0] = Wolverine;
 		jets[1] = Batman;
@@ -21,11 +21,11 @@ public class JetTest {
 		jets[4] = Spiderman;
 		// make an array of pilots
 		Pilot[] pilots = new Pilot[5];
-		Pilot Bob = new Pilot("Bob", 500, 4);
-		Pilot Hank = new Pilot("Hank", 300, 2);
-		Pilot Jessica = new Pilot("Jessica", 1000, 10);
-		Pilot Liz = new Pilot("Liz", 300, 5);
-		Pilot Hannah = new Pilot("Hannah", 600, 2);
+		Pilot Bob = new Pilot(1, "Bob", 500, 4);
+		Pilot Hank = new Pilot(2, "Hank", 300, 2);
+		Pilot Jessica = new Pilot(3, "Jessica", 1000, 10);
+		Pilot Liz = new Pilot(4, "Liz", 300, 5);
+		Pilot Hannah = new Pilot(5, "Hannah", 600, 2);
 		pilots[0] = Bob;
 		pilots[1] = Hank;
 		pilots[2] = Jessica;
@@ -37,9 +37,9 @@ public class JetTest {
 		Scanner keyboard = new Scanner(System.in);
 		printMenu(keyboard, selection, jets);
 		selectionAction(selection, jets, keyboard, pilots);
-//		getFastestJet(jets);
-//		getLongestRange(jets);
-//		addAJet(jets, keyboard, pilots);
+		// getFastestJet(jets);
+		// getLongestRange(jets);
+		// addAJet(jets, keyboard, pilots);
 		quitProgram(keyboard);
 
 	}
@@ -60,7 +60,7 @@ public class JetTest {
 	}
 
 	public static void selectionAction(int selection, Jet[] jets, Scanner keyboard, Pilot[] pilots) {
-		
+
 		do {
 			selection = keyboard.nextInt();
 			if (selection == 1) {
@@ -95,6 +95,7 @@ public class JetTest {
 			System.out.println(jet + "\n" + "\u2708");
 		}
 	}
+
 	public static void printPilots(Pilot[] pilots) {
 		for (Pilot pilot : pilots) {
 			System.out.println(pilot);
@@ -147,6 +148,9 @@ public class JetTest {
 	}
 
 	public static Jet[] addAJet(Jet[] jets, Scanner keyboard, Pilot[] pilots) {
+		System.out.println("\u2708 Enter the id of the jet: ");
+		int id = keyboard.nextInt();
+		
 		System.out.println("\u2708 Enter the model of the jet: ");
 		String model = keyboard.next();
 
@@ -162,9 +166,8 @@ public class JetTest {
 		System.out.println("\u2708 Enter your desired price of the jet, in millions: ");
 		float price = keyboard.nextFloat();
 
-
 		System.out.println("\u2708 Here are the details of the new jet");
-		Jet newJet = new Jet(model, speed, range, capacity, price, getRandomPilot(pilots));
+		Jet newJet = new Jet(id, model, speed, range, capacity, price, getRandomPilot(pilots));
 		Jet[] addjets = new Jet[jets.length + 1];
 		for (int i = 0; i < jets.length; i++) {
 			addjets[i] = jets[i];
@@ -173,7 +176,7 @@ public class JetTest {
 		jets = addjets;
 		h.addJetToHangar(newJet);
 		System.out.println(newJet);
-		
+
 		return jets; // return updated jets array
 	}
 
@@ -185,13 +188,15 @@ public class JetTest {
 		}
 	}
 
-	public static Pilot getRandomPilot(Pilot[] pilots) {
-		// generate an index that fits between the pilots array
-		int index = ((int) (Math.random() * 10)) % pilots.length;
-		Pilot newPilot = pilots[index]; // pull the index of pilot to get new
-										// pilot
-		return newPilot;
-	}
+	 public static Pilot getRandomPilot(Pilot[] pilots) {
+	 // generate an index that fits between the pilots array
+	 int index = ((int) (Math.random() * 10)) % pilots.length;
+	 Pilot newPilot = pilots[index]; // pull the index of pilot to get new
+	 return newPilot;
+	
+	 }
+	 
+	
 
 	public static void hirePilot(Jet[] jets, Scanner keyboard, Pilot[] pilots) {
 		Jet jet = null;
